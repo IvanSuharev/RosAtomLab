@@ -1,5 +1,5 @@
 from sqlalchemy import Table, Integer, Text, Column, DateTime, String
-from bd.db import Base
+from db.db import Base
 import datetime
 
 
@@ -8,7 +8,7 @@ class Event(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(256), nullable=False)
-    description = Column(String)
+    description = Column(Text)
 
     created_at = Column(DateTime, nullable=False, default=datetime.datetime.utcnow())
     planned_at = Column(DateTime, nullable=False)

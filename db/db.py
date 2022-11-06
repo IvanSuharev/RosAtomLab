@@ -2,13 +2,13 @@ from sqlalchemy import create_engine
 from dotenv import load_dotenv
 import os
 
-from sqlalchemy.orm import Session, declarative_base, sessionmaker
+from sqlalchemy.orm import sessionmaker, declarative_base, Session
 
 load_dotenv()
-db_link = os.getenv("DB_LINK")
+db_url = os.getenv("DB_URL")
 
-engine = create_engine(db_link)
-SessionLocal = sessionmaker(bind=engine)
+engine = create_engine(db_url)
+SessionLocal = sessionmaker(engine)
 Base = declarative_base()
 
 

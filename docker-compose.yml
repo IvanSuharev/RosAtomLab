@@ -2,13 +2,13 @@ version: "3"
 
 services:
   db:
-    container_name: pg_db
+    container_name: rosatomdb
     image: postgres
     restart: always
     environment:
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}: -0000"
       POSTGRES_USER: "${POSTGRES_USER}: -postgres"
-      POSTGRES_DB: "${POSTGRES_DB}: -rosatom_labs"
+      POSTGRES_DB: "${rosatom_labs}: -rosatom_labs"
     ports:
       - '5432:5432'
     env_file:
@@ -17,9 +17,29 @@ services:
     image: dpage/pgadmin4
     restart: always
     environment:
-      PGADMIN_DEFAULT_EMAIL: "${PGADMIN_DEFAULT_EMAIL}: -example@gmail.com"
-      PGADMIN_DEFAULT_PASSWORD: "${PGADMIN_DEFAULT_PASSWORD}: -0000"
+      PGADMIN_DEFAULT_EMAIL: "${PGADMIN_DEFAULT_EMAIL}:-example@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "${PGADMIN_DEFAULT_PASSWORD}:-0000"
     ports:
       - '80:80'
     env_file:
       - .env
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        PORT: "${PORT}"
+        NAME: "${NAME}"
+    ports:
+      - "${PORT}:${PORT}"
+    environment:
+      PORT: "${PORT}"
+      NAME: "${NAME}"
+    env_file:
+      - .env
+    restart: always
+
+
+networks:
+  default:
+    name: "${NAME}_backend_network"
